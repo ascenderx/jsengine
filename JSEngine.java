@@ -40,7 +40,7 @@ public class JSEngine
    {
       // get manager & engine
       ScriptEngineManager mgr = new ScriptEngineManager(null);
-      ScriptEngine        eng = mgr.getEngineByName("rhino");
+      ScriptEngine        eng = mgr.getEngineByName("nashorn");
 
       // prepare an exit status code
       int exitStatus;

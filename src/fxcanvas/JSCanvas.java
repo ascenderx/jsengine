@@ -71,19 +71,24 @@ public class JSCanvas extends Application
       // display debug message
       System.err.printf("Complete%n");
       
-      // display debug message
-      System.err.printf("Reading user source file...");
-      
       if (args.length > 0)
       {
          FileReader fin;
          try
          {
+            // display debug message
+            System.err.printf("Reading library source file...");
+            
             // load and evaluate predefined functions
-            eng.eval(
-               "function color(string)" +
-               "{ return javafx.scene.paint.Color.web(string); }"
-            );
+            fin = new FileReader("../lib/functions.js");
+            eng.eval(fin);
+            fin.close();
+            
+            // display debug message
+            System.err.printf("Complete%n");
+            
+            // display debug message
+            System.err.printf("Reading user source file...");
             
             // load and evaluate the file
             fin = new FileReader(args[0]);
@@ -135,6 +140,7 @@ public class JSCanvas extends Application
          // parse any file errors
          catch (IOException ioe)
          {
+            // get the user's source filename
             File   file = new File(args[0]);
             String message;
             
@@ -146,7 +152,7 @@ public class JSCanvas extends Application
             else if (!file.canRead())
                message = "Cannot read file \"" + args[0] + "\"";
             else
-               message = "Cannot open file \"" + args[0] + "\"";
+               message = ioe.getMessage();
                
             System.out.println(message);
             

@@ -49,7 +49,7 @@ public class JSEngine
       eng.put("args", args);
 
       // evaluate predetermined JavaScript commands
-      FileReader fin1 = new FileReader("functions.js");
+      FileReader fin1 = new FileReader("../lib/functions.js");
       eng.eval(fin1);
       fin1.close();
       

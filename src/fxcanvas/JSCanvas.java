@@ -90,9 +90,41 @@ public class JSCanvas extends Application
             eng.eval(fin);
             fin.close();
             
-            if ((eng.get("main") != "undefined") &&
-                (eng.get("main") != "null"))
-               eng.eval("main();");
+            // run the user-defined initializer
+            if (eng.get("init") != null)
+               eng.eval("init();");
+            else
+            {
+               System.err.printf("Function init() not defined%n");
+               System.exit(1);
+            }
+            
+            // attach the user-defined main loop to a timer
+            if (eng.get("run") != null)
+            {
+               AnimationTimer timer = new AnimationTimer()
+               {
+                  public void handle(long now)
+                  {
+                     try
+                     {
+                        eng.eval("run();");
+                     }
+                     catch (ScriptException se)
+                     {
+                        System.err.println(se.getMessage());
+                        System.exit(1);
+                     }
+                  }
+               };
+               
+               timer.start();
+            }
+            else
+            {
+               System.err.printf("Function run() not defined%n");
+               System.err.printf("(Ignoring animation)...");
+            }
             
             // display debug message
             System.err.printf("Complete%n");

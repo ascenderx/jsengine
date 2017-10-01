@@ -7,6 +7,7 @@ import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
@@ -124,6 +125,42 @@ public class JSCanvas extends Application
                };
                
                timer.start();
+               
+               scene.setOnKeyPressed(new EventHandler<KeyEvent> ()
+               {
+                  public void handle(final KeyEvent event)
+                  {
+                     try
+                     {
+                        KeyCode key = event.getCode();
+                        eng.eval(
+                           "ui.set(\"" + key.getName() + "\", true);"
+                        );
+                     }
+                     catch (ScriptException se)
+                     {
+                        System.err.println(se.getMessage());
+                     }
+                  }
+               });
+               
+               scene.setOnKeyReleased(new EventHandler<KeyEvent> ()
+               {
+                  public void handle(final KeyEvent event)
+                  {
+                     try
+                     {
+                        KeyCode key = event.getCode();
+                        eng.eval(
+                           "ui.set(\"" + key.getName() + "\", false);"
+                        );
+                     }
+                     catch (ScriptException se)
+                     {
+                        System.err.println(se.getMessage());
+                     }
+                  }
+               });
             }
             else
             {

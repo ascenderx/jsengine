@@ -14,7 +14,7 @@ function init()
    x   = 200;
    y   = 200;
    r   = 50;
-   dx  = 1;
+   dx  = 0;
    dy  = 0;
    dr  = 0;
 }
@@ -22,6 +22,7 @@ function init()
 function run()
 {
    draw();
+   handleInput();
    update();
 }
 
@@ -47,6 +48,7 @@ function draw()
 function update()
 {
    x += dx;
+   y += dy;
    
    if ((x + r > GCW) && (dx > 0))
    {
@@ -58,4 +60,32 @@ function update()
       x  = 0 + r;
       dx = -dx;
    }
+   
+   if ((y + r > GCW) && (dy > 0))
+   {
+      y  = GCH - r;
+      dy = -dy;
+   }
+   else if ((y - r < 0) && (dy < 0))
+   {
+      y  = 0 + r;
+      dy = -dy;
+   }
+}
+
+function handleInput()
+{
+   if (ui.keyUp > 0)
+      dy = -5;
+   else if (ui.keyDown > 0)
+      dy = +5;
+   else
+      dy = 0;
+   
+   if (ui.keyLeft > 0)
+      dx = -5;
+   else if (ui.keyRight > 0)
+      dx = +5;
+   else
+      dx = 0;
 }

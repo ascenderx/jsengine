@@ -5,10 +5,12 @@ import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
+import javafx.scene.Cursor;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import javax.script.ScriptEngine;
@@ -134,7 +136,9 @@ public class JSCanvas extends Application
                      {
                         KeyCode key = event.getCode();
                         eng.eval(
-                           "ui.set(\"" + key.getName() + "\", true);"
+                           "ui.setKey(\"" +
+                           key.getName()  +
+                           "\", true);"
                         );
                      }
                      catch (ScriptException se)
@@ -152,7 +156,9 @@ public class JSCanvas extends Application
                      {
                         KeyCode key = event.getCode();
                         eng.eval(
-                           "ui.set(\"" + key.getName() + "\", false);"
+                           "ui.setKey(\"" +
+                           key.getName()  +
+                           "\", false);"
                         );
                      }
                      catch (ScriptException se)
@@ -161,6 +167,29 @@ public class JSCanvas extends Application
                      }
                   }
                });
+               
+               scene.setOnMouseMoved(new EventHandler<MouseEvent> ()
+               {
+                  public void handle(final MouseEvent event)
+                  {
+                     try
+                     {
+                        double x = event.getSceneX();
+                        double y = event.getSceneY();
+                        eng.eval(
+                           "ui.setXY("  +
+                           x + ", " + y +
+                           ");"
+                        );
+                     }
+                     catch (ScriptException se)
+                     {
+                        System.err.println(se.getMessage());
+                     }
+                  }
+               });
+               
+               scene.setCursor(Cursor.NONE);
             }
             else
             {

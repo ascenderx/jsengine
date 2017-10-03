@@ -75,6 +75,9 @@ function update()
 
 function handleInput()
 {
+   x = ui.x;
+   y = ui.y;
+   
    if (ui.keyUp > 0)
       dy = -5;
    else if (ui.keyDown > 0)
